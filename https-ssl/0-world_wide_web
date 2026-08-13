@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
+# Displays DNS information for a given domain and subdomain.
 
-# Display DNS information for a subdomain
 display_info() {
     local domain=$1
     local subdomain=$2
 
-    result=$(dig "$subdomain.$domain" | awk '/ANSWER SECTION:/{getline; print}')
-
-    record_type=$(echo "$result" | awk '{print $4}')
-    destination=$(echo "$result" | awk '{print $5}')
+    record=$(dig "$subdomain.$domain" | awk '/ANSWER SECTION:/{getline; print}')
+    record_type=$(echo "$record" | awk '{print $4}')
+    destination=$(echo "$record" | awk '{print $5}')
 
     echo "The subdomain $subdomain is a $record_type record and points to $destination"
 }
